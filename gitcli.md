@@ -40,7 +40,7 @@ git push origin dev_silkwave
 ```
 
 ## 7. GitLab에서 머지 요청 생성
-1. [GitLab](http://gitlab-project-meta.shinhansec.com/)에 접속.
+1. [GitLab](http://gitlab.com/)에 접속.
 2. 상단 메뉴에서 **Create merge requests** 클릭.
 3. **Approve** 클릭.
 4. **Merge** 클릭.
