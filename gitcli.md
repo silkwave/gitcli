@@ -65,6 +65,29 @@ git reset --hard
 git diff dev
 ```
 
----
+### 리모트 저장소의 URL이 출력됩니다
+```sh
+git remote get-url origin
+```
 
-**참고:** 작업 수행 전 변경 사항과 브랜치 이름을 반드시 확인하세요.
+### 파일명 한글 깨짐 해결
+```sh
+git config --global core.quotepath false
+git config --global i18n.commitencoding utf-8
+git config --global i18n.logoutputencoding utf-8
+git log --encoding=utf-8
+```
+### 특정 커밋 되돌리기
+```sh
+git status 
+git log --oneline
+git revert 3f5a1b7
+git log --oneline
+커밋 되돌리기 + 충돌 해결
+
+되돌리는 과정에서 충돌이 발생할 수 있습니다. 이 경우:
+
+    충돌 파일을 수정합니다.
+    변경 사항을 git add로 스테이징합니다.
+    git revert --continue 명령을 실행합니다.
+```
