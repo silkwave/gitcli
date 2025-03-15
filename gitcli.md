@@ -62,15 +62,12 @@ git log --encoding=utf-8
 ```sh
 git status 
 git log --oneline
-git revert 3f5a1b7
-git log --oneline
-커밋 되돌리기 + 충돌 해결
+git reset --soft HEAD~1   #커밋만 취소 (파일 변경 사항 유지)
+git reset --mixed HEAD~1  #커밋 + 스테이징 취소 (파일 변경 사항 유지)
 
-되돌리는 과정에서 충돌이 발생할 수 있습니다. 이 경우:
+git push origin --delete dev_silkwave #원격 브랜치 삭제 (origin/<branch_name>)
 
-    충돌 파일을 수정합니다.
-    변경 사항을 git add로 스테이징합니다.
-    git revert --continue 명령을 실행합니다.
+
 ```
 
 ### 변경 사항을 스태시에 저장
@@ -101,4 +98,24 @@ git remote get-url origin
 
 start https://github.com/silkwave/gitcli
 
+```
+
+### 원격 브랜치 삭제 실행
+```sh
+
+ssh-keygen -t rsa -b 4096 -C "silkwae24@gmail.com"
+cat ~/.ssh/id_rsa.pub
+
+https://github.com/settings/keys
+
+git remote set-url origin git@github.com:silkwave/gitcli.git
+git fetch origin
+git push origin --delete dev_silkwave
+
+git branch -d dev_silkwave
+
+
+git remote -v
+ssh -T git@github.com
+  
 ```
