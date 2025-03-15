@@ -62,40 +62,68 @@ git log --encoding=utf-8
 ```
 ### 특정 커밋 되돌리기
 ```sh
-git status 
-git log --oneline
-git reset --soft HEAD~1   #커밋만 취소 (파일 변경 사항 유지)
-git reset --mixed HEAD~1  #커밋 + 스테이징 취소 (파일 변경 사항 유지)
+# 현재 상태 확인 (추가된 파일, 변경된 파일, 커밋 상태 등 확인)
+git status
 
-git push origin --delete feature #원격 브랜치 삭제 (origin/<branch_name>)
+# 커밋 로그 확인 (한 줄 요약 형식으로 커밋 기록 확인)
+git log --oneline
+
+# 마지막 커밋만 취소 (파일 변경 사항은 그대로 남기고 커밋만 되돌림)
+git reset --soft HEAD~1   # 커밋만 취소 (파일 변경 사항 유지)
+
+# 마지막 커밋 + 스테이징된 상태 취소 (파일 변경 사항은 유지, 스테이징 해제)
+git reset --mixed HEAD~1  # 커밋 + 스테이징 취소 (파일 변경 사항 유지)
+
+# 원격 저장소에서 feature 브랜치 삭제 (origin/feature)
+git push origin --delete feature  # 원격 브랜치 삭제 (origin/<branch_name>)
 
 
 ```
 
-### 변경 사항을 스태시에 저장
+### 스태시에서 저장했던 변경 사항을 다시 적용
 ```sh
 
 # 현재 변경 사항을 스태시에 저장 (작업 도중이므로 "WIP" 태그 추가)
 git stash push -m "WIP: feature 작업 중"
 
-# GitLab에서 main 브랜치의 최신 코드 가져오기
+# GitLab에서 최신 코드 가져오기 (원격 저장소에서 최신 상태를 fetch)
 git fetch origin
+
+# GitLab에서 main 브랜치의 최신 코드 받아오기 (git pull)
 git pull origin main  
 
 # 스태시에서 저장했던 변경 사항을 다시 적용
 git stash pop
 
+
 ```
 
 
-###  로컬 브랜치를 원격 브랜치로 완전히 초기화 (강제 리셋)
+###  로컬 브랜치를 원격 main 브랜치 상태로 강제 초기화
 ```sh
 
+# 원격 저장소에서 최신 정보를 가져오기
 git fetch origin
+
+# 로컬 브랜치를 원격 main 브랜치 상태로 강제 초기화
 git reset --hard origin/main
 
+
+```
+
+###  원격 main 브랜치를 기준으로 새로운 feature 브랜치 생성
+```sh
+
+# main 브랜치로 전환
 git switch main  
-git branch -D feature
+
+# 로컬 feature 브랜치를 삭제
+git branch -D feature  
+
+# 원격 저장소에서 최신 정보를 가져오기
+git fetch origin
+
+# 원격 main 브랜치를 기준으로 새로운 feature 브랜치 생성
 git checkout -b feature origin/main
 
 ```
