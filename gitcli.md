@@ -57,6 +57,8 @@ git config --global i18n.commitencoding utf-8
 git config --global i18n.logoutputencoding utf-8
 
 git log --encoding=utf-8
+
+
 ```
 ### 특정 커밋 되돌리기
 ```sh
@@ -72,19 +74,24 @@ git push origin --delete dev_silkwave #원격 브랜치 삭제 (origin/<branch_n
 
 ### 변경 사항을 스태시에 저장
 ```sh
-# 1. 현재 작업 중인 변경 사항을 stash에 저장
+
+# 현재 변경 사항을 스태시에 저장 (작업 도중이므로 "WIP" 태그 추가)
 git stash push -m "WIP: feature 작업 중"
 
-# 2. main 브랜치로 전환하여 최신 코드 가져오기
-git switch main
-git pull origin main  # GitLab에서 최신 코드 가져오기
+# GitLab에서 main 브랜치의 최신 코드 가져오기
+git pull origin main  
 
-# 3. feature 브랜치로 돌아와 main 변경 사항 병합
-git switch feature
-git merge main  # 최신 main 브랜치 변경 사항 병합
-
-# 4. 저장한 stash 적용 후 삭제
+# 스태시에서 저장했던 변경 사항을 다시 적용
 git stash pop
+
+# 로컬 브랜치를 원격 브랜치로 완전히 초기화 (강제 리셋)
+git fetch origin
+git reset --hard origin/main
+
+git branch -D dev_silkwave
+git branch -D feature
+git checkout -b feature origin/feature
+
 
 ```
 
