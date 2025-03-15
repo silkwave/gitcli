@@ -67,7 +67,7 @@ git log --oneline
 git reset --soft HEAD~1   #커밋만 취소 (파일 변경 사항 유지)
 git reset --mixed HEAD~1  #커밋 + 스테이징 취소 (파일 변경 사항 유지)
 
-git push origin --delete dev_silkwave #원격 브랜치 삭제 (origin/<branch_name>)
+git push origin --delete feature #원격 브랜치 삭제 (origin/<branch_name>)
 
 
 ```
@@ -79,19 +79,24 @@ git push origin --delete dev_silkwave #원격 브랜치 삭제 (origin/<branch_n
 git stash push -m "WIP: feature 작업 중"
 
 # GitLab에서 main 브랜치의 최신 코드 가져오기
+git fetch origin
 git pull origin main  
 
 # 스태시에서 저장했던 변경 사항을 다시 적용
 git stash pop
 
-# 로컬 브랜치를 원격 브랜치로 완전히 초기화 (강제 리셋)
+```
+
+
+###  로컬 브랜치를 원격 브랜치로 완전히 초기화 (강제 리셋)
+```sh
+
 git fetch origin
 git reset --hard origin/main
 
-git branch -D dev_silkwave
+git switch main  
 git branch -D feature
-git checkout -b feature origin/feature
-
+git checkout -b feature origin/main
 
 ```
 
