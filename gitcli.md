@@ -52,8 +52,10 @@ git remote get-url origin
 ### 파일명 한글 깨짐 해결
 ```sh
 git config --global core.quotepath false
+
 git config --global i18n.commitencoding utf-8
 git config --global i18n.logoutputencoding utf-8
+
 git log --encoding=utf-8
 ```
 ### 특정 커밋 되돌리기
@@ -73,15 +75,30 @@ git log --oneline
 
 ### 변경 사항을 스태시에 저장
 ```sh
-# 1. 변경 사항을 스태시에 저장
-git stash push -m "WIP: 메인 페이지 UI 작업"
+# 1. 현재 작업 중인 변경 사항을 stash에 저장
+git stash push -m "WIP: feature 작업 중"
 
-# 2. 브랜치 전환
-git checkout feature
+# 2. main 브랜치로 전환하여 최신 코드 가져오기
+git switch main
+git pull origin main  # GitLab에서 최신 코드 가져오기
 
-# 3. 작업 완료 후 다시 메인 브랜치로 돌아감
-git checkout main
+# 3. feature 브랜치로 돌아와 main 변경 사항 병합
+git switch feature
+git merge main  # 최신 main 브랜치 변경 사항 병합
 
-# 4. 저장했던 스태시 적용
-git stash apply
+# 4. 저장한 stash 적용 후 삭제
+git stash pop
+
+```
+
+### git bash git 리모트 web url 열기 
+```sh
+git_repo_url=$(git config --get remote.origin.url | sed 's/git@/https:\/\//; s/:/\//; s/\.git$//')
+start "$git_repo_url"
+
+git config --get remote.origin.url
+git remote get-url origin
+
+start https://github.com/silkwave/gitcli
+
 ```
