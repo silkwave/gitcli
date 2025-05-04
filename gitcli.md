@@ -102,11 +102,24 @@ git stash pop
 ###  로컬 브랜치를 원격 main 브랜치 상태로 강제 초기화
 ```sh
 
-# 원격 저장소에서 최신 정보를 가져오기
+# 1. 병합(Merge) 방식으로 원격 저장소의 변경 사항을 가져오고 병합하기
+git pull --no-ff origin main
+
+# 2. 리베이스(Rebase) 방식으로 깔끔하게 커밋 히스토리 정리하면서 가져오기
+git pull --rebase origin main
+
+# 또는 수동으로 리베이스 진행하기
+git rebase origin/main
+
+# 리베이스 도중 문제가 생겼을 때 리베이스 중단 및 이전 상태로 복원
+git rebase --abort
+
+# 원격 저장소의 최신 정보를 가져오기 (병합이나 변경 없이)
 git fetch origin
 
-# 로컬 브랜치를 원격 main 브랜치 상태로 강제 초기화
+# 로컬 브랜치를 원격 main 브랜치의 상태로 강제로 초기화 (주의: 로컬 변경 사항은 모두 사라짐)
 git reset --hard origin/main
+
 
 
 ```
@@ -125,6 +138,15 @@ git fetch origin
 
 # 원격 main 브랜치를 기준으로 새로운 feature 브랜치 생성
 git checkout -b feature origin/main
+
+#  로컬 브랜치 dev_silkwave를 원격 브랜치 dev로 푸시
+git push --set-upstream origin dev_silkwave:dev  
+
+현재 브랜치가 'origin/dev_silkwave' 기반이지만, 업스트림이 없어졌습니다.
+  (바로잡으려면 "git branch --unset-upstream"을 사용하십시오) 
+
+# HTTPS로 원격 주소 변경 (간단)
+git remote set-url origin https://github.com/silkwave/redis.git
 
 ```
 
@@ -157,5 +179,10 @@ git branch -d dev_silkwave
 
 git remote -v
 ssh -T git@github.com
+
+# 로컬 브랜치의 내용을 원격 브랜치에 강제로 덮어쓰기 (주의: 원격의 커밋 히스토리가 사라질 수 있음)
+git push origin main --force
+
   
 ```
+
