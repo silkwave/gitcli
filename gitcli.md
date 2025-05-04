@@ -132,6 +132,19 @@ git reset --hard HEAD@{1}
 #또는 커밋 해시 직접 지정:
 git reset --hard e4f5g6h
 
+되돌릴 커밋이 올바른지 먼저 확인하고 싶다면:
+git show 81af509
+
+#현재 상태를 실수로 덮어쓰기 전에 백업해두고 싶다면:
+git branch backup-before-reset
+# 로컬 브랜치를 원격 main 브랜치의 상태로 강제로 초기화 (주의: 로컬 변경 사항은 모두 사라짐)
+git reset --hard origin/main
+#만약 문제가 생기면 언제든지 백업 브랜치로 복원할 수 있습니다:
+git checkout backup-before-reset
+#또는 완전히 되돌리기:
+git reset --hard backup-before-reset
+
+
 
 ```
 
