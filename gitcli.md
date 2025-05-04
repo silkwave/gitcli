@@ -58,6 +58,9 @@ git config --global i18n.logoutputencoding utf-8
 
 git log --encoding=utf-8
 
+git log --oneline --all --graph 
+
+
 
 ```
 ### 특정 커밋 되돌리기
@@ -120,6 +123,14 @@ git fetch origin
 # 로컬 브랜치를 원격 main 브랜치의 상태로 강제로 초기화 (주의: 로컬 변경 사항은 모두 사라짐)
 git reset --hard origin/main
 
+#git reflog 사용하기 (되살릴 수 있는 가장 일반적인 방법)
+git reflog
+
+#여기서 HEAD@{1}이 reset 명령어 직전 상태입니다. 해당 시점으로 돌아가려면:
+git reset --hard HEAD@{1}
+
+#또는 커밋 해시 직접 지정:
+git reset --hard e4f5g6h
 
 
 ```
