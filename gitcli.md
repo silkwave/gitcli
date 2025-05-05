@@ -108,6 +108,9 @@ git stash pop
 # 이 브랜치에 대한 추적 정보를 설정하려면 다음과 같이 할 수 있습니다:
 git branch --set-upstream-to=origin/dev dev2 
 
+#또는 브랜치 전환 시 바로 설정:
+git checkout -b dev2 origin/dev
+
 #Merge 방식 (기본적이고 안전한 방식) 로컬과 원격의 히스토리를 병합(Merge) 하려면
 git config pull.rebase false
 git pull origin dev
