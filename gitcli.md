@@ -105,6 +105,17 @@ git stash pop
 ###  로컬 브랜치를 원격 main 브랜치 상태로 강제 초기화
 ```sh
 
+# 이 브랜치에 대한 추적 정보를 설정하려면 다음과 같이 할 수 있습니다:
+git branch --set-upstream-to=origin/dev dev2 
+
+#Merge 방식 (기본적이고 안전한 방식) 로컬과 원격의 히스토리를 병합(Merge) 하려면
+git config pull.rebase false
+git pull origin dev
+git log --oneline --all --graph 
+
+#git config에 --global 옵션을 추가하면 앞으로 모든 저장소에 동일한 방식이 적용됩니다.
+git config --global pull.rebase false
+
 # 1. 병합(Merge) 방식으로 원격 저장소의 변경 사항을 가져오고 병합하기
 git pull --no-ff origin main
 
@@ -143,6 +154,7 @@ git reset --hard origin/main
 git checkout backup-before-reset
 #또는 완전히 되돌리기:
 git reset --hard backup-before-reset
+
 
 
 
