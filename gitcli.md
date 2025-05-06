@@ -225,3 +225,48 @@ git push origin main --force
   
 ```
 
+### git_auto_commit.bat)
+```bat
+
+@echo off
+:: [1] 사용자 설정
+set "PROJECT_PATH=C:\Users\사용자이름\프로젝트폴더"
+set "GITLAB_URL=https://gitlab.com/사용자명/저장소명"
+
+:: [2] Git Bash 실행 경로 변수화 (경로가 다를 경우 수정)
+set "GIT_BASH_PATH=C:\Program Files\Git\git-bash.exe"
+for /f "delims=" %%G in ('where "git-bash.exe"') do set "GIT_BASH_PATH=%%G"
+
+:: [3] Git Bash에서 실행할 명령어 정의
+set "GIT_COMMANDS=^
+cd \"%PROJECT_PATH%\" && ^
+USER=%USERNAME% && ^
+NOW=$(date '+%%Y-%%m-%%d %%H:%%M:%%S') && ^
+git pull || exit 1 && ^
+
+if git ls-files -u | grep . >/dev/null; then ^
+  echo '⚠️ 충돌 발생! 최근 커밋 로그:' && ^
+  git log -n 5 --oneline && ^
+  echo '⛔ 충돌 해결 후 다시 실행하세요.' && ^
+  exec bash; ^
+else ^
+  STATUS=$(git status -s) && ^
+  MSG=\"자동 커밋 - $NOW by $USER%n$STATUS\" && ^
+  git add . && ^
+  git commit -m \"$MSG\" && ^
+  git push && ^
+  git status && ^
+  exec bash; ^
+fi"
+
+:: [4] Git Bash 실행
+start "" "%GIT_BASH_PATH%" -c "%GIT_COMMANDS%"
+
+:: [5] GitLab 저장소 브라우저 열기
+start "" "%GITLAB_URL%"
+
+
+
+
+```
+
