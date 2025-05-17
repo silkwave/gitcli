@@ -1,55 +1,6 @@
-[user]
-    name = Your Name
-    email = your.email@example.com
-
-[core]
-    editor = vim
-
-[color]
-    ui = auto
-
 [alias]
-    st = status
-    co = checkout
-    br = branch
-    cm = commit
-    lg = log --oneline --graph --decorate --all
-    track = "!f() { \
-      branch=$1; \
-      if [ -z \"$branch\" ]; then \
-        echo \"사용법: git track <브랜치명>\"; \
-        exit 1; \
-      fi; \
-      git checkout -b \"$branch\" origin/\"$branch\" 2>/dev/null || \
-      git branch --set-upstream-to=origin/\"$branch\" \"$branch\"; \
-    }; f"
-  auto-commit = "!f() { \
-    NOW=$(date '+%Y-%m-%d %H:%M:%S'); \
-    git pull || exit 1; \
-    git ls-files -u | grep . >/dev/null && { \
-      echo '⚠️ 충돌 발생!'; git log -n 5 --oneline; echo '⛔ 충돌 해결 후 다시 실행하세요.'; exit 1; }; \
-    STATUS=$(git status -s); \
-    [ -z \"$STATUS\" ] && { echo '✅ 변경 사항 없음.'; exit 0; }; \
-    git add .; \
-    git commit -m \"자동 커밋 - $NOW by ${USER:-$(whoami)}\\n$STATUS\"; \
-    git push; \
-    git status; \
-  }; f"
-
-[alias]
-  auto-commit = "!f() { \
-    T=$(date '+%Y-%m-%d %H:%M:%S'); \
-    git pull || exit 1; \
-    git ls-files -u | grep . >/dev/null && { \
-      echo '⚠️ 충돌 발생'; git log -n 3 --oneline; exit 1; }; \
-    S=$(git status -s); \
-    [ -z \"$S\" ] && { echo '✅ 변경 없음'; exit 0; }; \
-    git add .; \
-    git commit -m \"자동 커밋 - $T by ${USER:-$(whoami)}\\n$S\"; \
-    git push; \
-  }; f"
-
-[alias]
+  st = status
+  lg = log --oneline --graph --decorate --all 
   auto-commit = "!f() { \
     T=$(date '+%Y-%m-%d %H:%M:%S'); \
     B=$(git rev-parse --abbrev-ref HEAD); \
@@ -113,21 +64,6 @@ chmod +x ~/.git-auto-commit.sh
 git auto-commit
 
 
-[alias]
-  st = status
-  lg = log --oneline --graph --decorate --all 
-  auto-commit = "!f() { \
-    T=$(date '+%Y-%m-%d %H:%M:%S'); \
-    B=$(git rev-parse --abbrev-ref HEAD); \
-    git pull origin dev || exit 1; \
-    git ls-files -u | grep . >/dev/null && { \
-      echo '⚠️ 충돌 발생'; git log -n 3 --oneline; exit 1; }; \
-    S=$(git status -s); \
-    [ -z \"$S\" ] && { echo '✅ 변경 없음'; exit 0; }; \
-    git add .; \
-    git commit -m \"자동 커밋 - $T ($B)\\n$S\"; \
-    git push --set-upstream origin $B:dev  ; \
-  }; f"
 
 
 # 현재 LANG 환경변수 확인 (ko_KR.UTF-8 이어야 한글 출력 정상)
