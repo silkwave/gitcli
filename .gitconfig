@@ -11,7 +11,7 @@
     S=$(git status -s); \
     [ -z \"$S\" ] && { echo '✅ 변경 없음'; exit 0; }; \
     git add .; \
-      git commit -m \"자동 커밋 - $T by (${B})\\n$S\"; \
+      git commit -m \"자동 커밋 - $T by (${B}) $S\"; \
     git push --set-upstream origin $B:dev  ; \
   }; f"
   
