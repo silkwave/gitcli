@@ -15,7 +15,7 @@
     git push --set-upstream origin $B:dev  ; \
   }; f"
 
-
+  
 .git/config    
 git config --list --show-origin
 git config --local --edit
