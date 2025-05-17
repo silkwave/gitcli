@@ -14,15 +14,28 @@
     br = branch
     cm = commit
     lg = log --oneline --graph --decorate --all
-  track = "!f() { \
-    branch=$1; \
-    if [ -z \"$branch\" ]; then \
-      echo \"사용법: git track <브랜치명>\"; \
-      exit 1; \
-    fi; \
-    git checkout -b \"$branch\" origin/\"$branch\" 2>/dev/null || \
-    git branch --set-upstream-to=origin/\"$branch\" \"$branch\"; \
+    track = "!f() { \
+      branch=$1; \
+      if [ -z \"$branch\" ]; then \
+        echo \"사용법: git track <브랜치명>\"; \
+        exit 1; \
+      fi; \
+      git checkout -b \"$branch\" origin/\"$branch\" 2>/dev/null || \
+      git branch --set-upstream-to=origin/\"$branch\" \"$branch\"; \
+    }; f"
+  auto-commit = "!f() { \
+    NOW=$(date '+%Y-%m-%d %H:%M:%S'); \
+    git pull || exit 1; \
+    git ls-files -u | grep . >/dev/null && { \
+      echo '⚠️ 충돌 발생!'; git log -n 5 --oneline; echo '⛔ 충돌 해결 후 다시 실행하세요.'; exit 1; }; \
+    STATUS=$(git status -s); \
+    [ -z \"$STATUS\" ] && { echo '✅ 변경 사항 없음.'; exit 0; }; \
+    git add .; \
+    git commit -m \"자동 커밋 - $NOW by ${USER:-$(whoami)}\\n$STATUS\"; \
+    git push; \
+    git status; \
   }; f"
+
 
 
 .git/config    
