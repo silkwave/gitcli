@@ -6,43 +6,42 @@ git config --local --edit
 [alias]
   st = status
   lg = log --oneline --graph --decorate --all 
-  auto-commit = "!f() { \
-    echo \"[CHK] git push전 로컬 WAS 수행 하세요 개발서버에서 컴파일 오류가  발생할 수 있습니다.\"; \
-    read -p \"[QST] 로컬 WAS 수행 하셨습니까? 계속 진행하시겠습니까? (y/n): \" yn; \
-    case $yn in \
-      [Yy]*) echo \"[INFO] 계속 진행합니다.\" ;; \
-      *) echo \"[STOP] 사용자가 작업을 취소했습니다.\"; exit 1 ;; \
-    esac; \
-    \
-    T=$(date '+%Y-%m-%d %H:%M:%S'); \
-    B=$(git rev-parse --abbrev-ref HEAD); \
-    echo '[PULL] origin/main에서 pull 중...'; \
-    git pull origin main || { echo '[FAIL] main pull 실패'; exit 1; }; \
-    \
-    echo '[PULL] origin/dev에서 pull 중...'; \
-    git pull origin dev || { echo '[FAIL] dev pull 실패'; exit 1; }; \
-    \
-    echo '[CHK] 충돌 확인 중...'; \
-    git ls-files -u | grep . >/dev/null && { echo '[!!] 충돌 발생'; git log -n 3 --oneline; exit 1; }; \
-    \
-    echo '[STS] 변경 사항 확인 중...'; \
-    S=$(git status -s); \
-    [ -z \"$S\" ] && { echo '[OK] 변경 사항 없음'; exit 0; }; \
-    \
-    echo '[ADD] 변경 사항 staging 중...'; \
-    git add .; \
-    \
-    echo '[CMT] 커밋 중...'; \
-    git commit -m \"자동 커밋 - $T by (${B})-(${S})\"; \
-    \
-    echo '[PUSH] dev 브랜치로 push 중...'; \
-    git push --set-upstream origin $B:dev; \
-    \
-    echo '[DONE] 자동 커밋 완료'; \
-  }; f"
+ 
 
+git config --local alias.auto-commit '!f() { \
+  echo "[CHK] git push 전 로컬 WAS 수행 하세요. 개발서버에서 컴파일 오류가 발생할 수 있습니다."; \
+  read -p "[QST] 로컬 WAS 수행 하셨습니까? 계속 진행하시겠습니까? (y/n): " yn; \
+  case $yn in \
+    [Yy]*) echo "[INFO] 계속 진행합니다." ;; \
+    *) echo "[STOP] 사용자가 작업을 취소했습니다."; exit 1 ;; \
+  esac; \
+  T=$(date "+%Y-%m-%d %H:%M:%S"); \
+  B=$(git rev-parse --abbrev-ref HEAD); \
+  if [[ "$B" == "dev" ]]; then \
+    echo "[ERR] dev 브랜치에서는 auto-commit을 사용할 수 없습니다."; exit 1; \
+  fi; \
+  if [[ ! "$B" =~ ^(dev.+|feature.*)$ ]]; then \
+    echo "[ERR] 허용되지 않은 브랜치입니다: $B"; exit 1; \
+  fi; \
+  echo "[PULL] origin/main에서 pull 중..."; \
+  git pull origin main || { echo "[FAIL] main pull 실패"; exit 1; }; \
+  echo "[PULL] origin/dev에서 pull 중..."; \
+  git pull origin dev || { echo "[FAIL] dev pull 실패"; exit 1; }; \
+  echo "[CHK] 충돌 확인 중..."; \
+  git ls-files -u | grep . >/dev/null && { echo "[!!] 충돌 발생"; git log -n 3 --oneline; exit 1; }; \
+  echo "[STS] 변경 사항 확인 중..."; \
+  S=$(git status -s); \
+  [ -z "$S" ] && { echo "[OK] 변경 사항 없음"; exit 0; }; \
+  echo "[ADD] 변경 사항 staging 중..."; \
+  git add .; \
+  echo "[CMT] 커밋 중..."; \
+  SHORT_S=$(echo "$S" | head -n 5 | tr "\n" " "); \
+  git commit -m "자동 커밋 - $T by (${B}) - ${SHORT_S}"; \
+  echo "[PUSH] dev 브랜치로 push 중..."; \
+  git push --set-upstream origin $B:dev; \
+  echo "[DONE] 자동 커밋 완료"; \
+}; f'
 
-git config --local alias.auto-commit "!f() { ... }; f"
 
 git config --local --get alias.auto-commit
 
