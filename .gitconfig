@@ -36,9 +36,23 @@
     git status; \
   }; f"
 
+[alias]
+  auto-commit = "!f() { \
+    T=$(date '+%Y-%m-%d %H:%M:%S'); \
+    git pull || exit 1; \
+    git ls-files -u | grep . >/dev/null && { \
+      echo '⚠️ 충돌 발생'; git log -n 3 --oneline; exit 1; }; \
+    S=$(git status -s); \
+    [ -z \"$S\" ] && { echo '✅ 변경 없음'; exit 0; }; \
+    git add .; \
+    git commit -m \"자동 커밋 - $T by ${USER:-$(whoami)}\\n$S\"; \
+    git push; \
+  }; f"
+
 
 
 .git/config    
 git config --list --show-origin
 git config --local --edit
 git config --global --edit
+git auto-commit
