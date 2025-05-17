@@ -222,7 +222,35 @@ ssh -T git@github.com
 # 로컬 브랜치의 내용을 원격 브랜치에 강제로 덮어쓰기 (주의: 원격의 커밋 히스토리가 사라질 수 있음)
 git push origin main --force
 
-  
+#1. 로컬 브랜치 fea-123에서 원격 브랜치 fea-dev를 추적하도록 설정
+git checkout fea-123
+git branch --set-upstream-to=origin/fea-dev
+
+2. 처음부터 다르게 추적하려면 (없는 로컬 브랜치 생성 포함)
+git checkout -b fea-123 origin/fea-dev
+
+#확인: 추적 브랜치가 잘 설정되었는지 확인
+git branch -vv
+
+#참고: 자주 쓰는 명령어 alias 등록 (선택)
+#.gitconfig에 다음처럼 추가하면 CLI가 더 편해집니다:
+[alias]
+  track = "!f() { git checkout -b $1 origin/$1 || git branch --set-upstream-to=origin/$1 $1; }; f"
+  brvv = branch -vv
+  upstream = "!git for-each-ref --format='%(refname:short) -> %(upstream:short)' refs/heads/"
+
+#사용 예:
+git track feature/login
+git brvv
+git upstream
+
+#모든 브랜치 추적 관계 한눈에 보기
+git for-each-ref --format="%(refname:short) -> %(upstream:short)" refs/heads/
+
+#추적 브랜치 제거
+git branch --unset-upstream
+
+
 ```
 
 ### git_auto_commit.bat)
@@ -264,9 +292,6 @@ start "" "%GIT_BASH_PATH%" -c "%GIT_COMMANDS%"
 
 :: [5] GitLab 저장소 브라우저 열기
 start "" "%GITLAB_URL%"
-
-
-
 
 ```
 

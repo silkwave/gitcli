@@ -1,0 +1,31 @@
+[user]
+    name = Your Name
+    email = your.email@example.com
+
+[core]
+    editor = vim
+
+[color]
+    ui = auto
+
+[alias]
+    st = status
+    co = checkout
+    br = branch
+    cm = commit
+    lg = log --oneline --graph --decorate --all
+  track = "!f() { \
+    branch=$1; \
+    if [ -z \"$branch\" ]; then \
+      echo \"사용법: git track <브랜치명>\"; \
+      exit 1; \
+    fi; \
+    git checkout -b \"$branch\" origin/\"$branch\" 2>/dev/null || \
+    git branch --set-upstream-to=origin/\"$branch\" \"$branch\"; \
+  }; f"
+
+
+.git/config    
+git config --list --show-origin
+git config --local --edit
+git config --global --edit
