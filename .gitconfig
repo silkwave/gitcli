@@ -69,3 +69,45 @@ git config --list --show-origin
 git config --local --edit
 git config --global --edit
 git auto-commit
+
+
+#1단계: .git/config에 아래처럼 작성
+[alias]
+  st = status
+  lg = log --oneline --graph --decorate --all
+  auto-commit = "!bash ~/.git-auto-commit.sh"
+
+
+#2단계: ~/.git-auto-commit.sh 파일 생성
+notepad.exe ~/.git-auto-commit.sh
+
+붙여넣기:
+
+#!/bin/bash
+T=$(date '+%Y-%m-%d %H:%M:%S')
+B=$(git rev-parse --abbrev-ref HEAD)
+
+git pull origin dev || exit 1
+
+if git ls-files -u | grep . >/dev/null; then
+  echo '⚠️ 충돌 발생'
+  git log -n 3 --oneline
+  exit 1
+fi
+
+S=$(git status -s)
+if [ -z "$S" ]; then
+  echo '✅ 변경 없음'
+  exit 0
+fi
+
+git add .
+git commit -m "자동 커밋 - $T ($B)
+$S"
+git push --set-upstream origin "$B":dev
+
+#저장 후 Git Bash에서 실행 권한 부여:
+chmod +x ~/.git-auto-commit.sh
+
+#사용법:
+git auto-commit
