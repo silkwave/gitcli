@@ -128,3 +128,29 @@ git auto-commit
     git commit -m \"자동 커밋 - $T ($B)\\n$S\"; \
     git push --set-upstream origin $B:dev  ; \
   }; f"
+
+
+# 현재 LANG 환경변수 확인 (ko_KR.UTF-8 이어야 한글 출력 정상)
+echo $LANG  
+
+# LANG, LC_ALL 환경변수 한글 UTF-8 로 설정
+export LANG=ko_KR.UTF-8
+export LC_ALL=ko_KR.UTF-8
+
+# 커밋 메시지 인코딩을 UTF-8 로 설정
+git config --global i18n.commitEncoding utf-8
+
+# 로그 출력 인코딩을 UTF-8 로 설정
+git config --global i18n.logOutputEncoding utf-8
+
+# 경로명 한글을 이스케이프 없이 그대로 보여주기
+git config --global core.quotepath false
+
+# 인덱스 미리 로드 설정 (성능 향상)
+git config --global core.preloadIndex true
+
+# 파일 시스템 캐시 활성화 (성능 향상)
+git config --global core.fscache true
+
+# less pager 옵션 설정: 내용이 화면보다 적으면 바로 종료, 출력 유지
+git config --global core.pager "less -F -X"
