@@ -41,6 +41,7 @@ git config --local alias.auto-commit '!f() { \
   echo "[PUSH] dev 브랜치로 push 중..."; \
   git push --set-upstream origin $B:dev; \
   echo "[DONE] 자동 커밋 완료"; \
+  git branch -vv; \  
 }; f'
 
 
