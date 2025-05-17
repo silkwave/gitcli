@@ -4,6 +4,7 @@
   auto-commit = "!f() { \
     T=$(date '+%Y-%m-%d %H:%M:%S'); \
     B=$(git rev-parse --abbrev-ref HEAD); \
+    git pull origin main || exit 1; \
     git pull origin dev || exit 1; \
     git ls-files -u | grep . >/dev/null && { \
       echo '⚠️ 충돌 발생'; git log -n 3 --oneline; exit 1; }; \
