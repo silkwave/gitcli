@@ -28,7 +28,7 @@ git auto-commit
   st = status
   lg = log --oneline --graph --decorate --all
   auto-commit = "!bash ~/.git-auto-commit.sh"
-
+  
 
 #2단계: ~/.git-auto-commit.sh 파일 생성
 notepad.exe ~/.git-auto-commit.sh
