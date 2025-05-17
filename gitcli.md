@@ -176,7 +176,7 @@ git branch -D feature
 git fetch origin
 
 # 원격 main 브랜치를 기준으로 새로운 feature 브랜치 생성
-git checkout -b feature origin/main
+git checkout -b dev3 origin/dev
 
 #  로컬 브랜치 dev_silkwave를 원격 브랜치 dev로 푸시
 git push --set-upstream origin dev_silkwave:dev  
