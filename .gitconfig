@@ -62,6 +62,10 @@ git config --local --edit
   }; f"
 
 
+git config --local alias.auto-commit "!f() { ... }; f"
+
+git config --local --get alias.auto-commit
+
   
 .git/config    
 git config --list --show-origin
