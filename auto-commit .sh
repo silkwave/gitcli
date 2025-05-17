@@ -8,7 +8,7 @@ git config --local --edit
   st = status
   lg = log --oneline --graph --decorate --all 
  
-
+  
 git config --local alias.auto-commit '!f() { \
   echo "[CHK] git push 전 로컬 WAS 수행 하세요. 개발서버에서 컴파일 오류가 발생할 수 있습니다."; \
   read -p "[QST] 로컬 WAS 수행 하셨습니까? 계속 진행하시겠습니까? (y/n): " yn; \
