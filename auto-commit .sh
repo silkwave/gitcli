@@ -1,5 +1,6 @@
 notepad.exe .git/config
 
+"C:\Program Files\Git\git-bash.exe" --cd="C:\Project\test"
 
 git config --local --edit
 
