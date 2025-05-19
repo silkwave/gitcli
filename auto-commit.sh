@@ -3,6 +3,9 @@ notepad.exe .git/config
 "C:\Program Files\Git\git-bash.exe" --cd="C:\Project\test"
 
 git config --local --edit
+#로컬 브랜치에서 아직 push 하지 않은 커밋 목록을 확인
+git log origin/dev.. --oneline --graph --decorate
+
 
 [alias]
   st = status
