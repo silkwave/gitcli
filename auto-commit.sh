@@ -21,7 +21,7 @@ B=$(git rev-parse --abbrev-ref HEAD);
 if [ "$B" = "dev" ]; then
   echo "[ERR] dev 브랜치에서는 auto-commit을 사용할 수 없습니다."; exit 1;
 fi;
-echo "$B" | grep -Eq "^(dev.+|feature.*)$" || { echo "[ERR] 허용되지 않은 브랜치입니다: $B"; exit 1; };
+echo "$B" | grep -Eq "^feature.*$" || { echo "[ERR] 허용되지 않은 브랜치입니다: $B"; exit 1; }
 echo "[PULL] origin/main에서 pull 중...";
 git pull origin main || { echo "[FAIL] main pull 실패"; exit 1; };
 echo "[PULL] origin/dev에서 pull 중...";
