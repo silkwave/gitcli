@@ -13,6 +13,8 @@ git log origin/dev.. --oneline --graph --decorate
  
   
 git config --local alias.auto-commit '!bash -c '\'' 
+S=$(git status -s);
+[ -z "$S" ] && { echo "[OK] 변경 사항 없음"; exit 0; };
 echo "[CHK] git push 전 로컬 WAS 수행 하세요. 개발서버에서 컴파일 오류가 발생할 수 있습니다.";
 read -p "[QST] 로컬 WAS 수행 하셨습니까? 계속 진행하시겠습니까? (y/n): " yn;
 case $yn in
