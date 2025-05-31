@@ -253,45 +253,138 @@ git branch --unset-upstream
 
 ```
 
-### git_auto_commit.bat)
-```bat
 
-@echo off
-:: [1] 사용자 설정
-set "PROJECT_PATH=C:\Users\사용자이름\프로젝트폴더"
-set "GITLAB_URL=https://gitlab.com/사용자명/저장소명"
+#Git 브랜치 동기화 상태 및 해결 방법
+```
 
-:: [2] Git Bash 실행 경로 변수화 (경로가 다를 경우 수정)
-set "GIT_BASH_PATH=C:\Program Files\Git\git-bash.exe"
-for /f "delims=" %%G in ('where "git-bash.exe"') do set "GIT_BASH_PATH=%%G"
+git status
+On branch dev
+Your branch is up to date with 'origin/dev'.
 
-:: [3] Git Bash에서 실행할 명령어 정의
-set "GIT_COMMANDS=^
-cd \"%PROJECT_PATH%\" && ^
-USER=%USERNAME% && ^
-NOW=$(date '+%%Y-%%m-%%d %%H:%%M:%%S') && ^
-git pull || exit 1 && ^
+nothing to commit, working tree clean
 
-if git ls-files -u | grep . >/dev/null; then ^
-  echo '⚠️ 충돌 발생! 최근 커밋 로그:' && ^
-  git log -n 5 --oneline && ^
-  echo '⛔ 충돌 해결 후 다시 실행하세요.' && ^
-  exec bash; ^
-else ^
-  STATUS=$(git status -s) && ^
-  MSG=\"자동 커밋 - $NOW by $USER%n$STATUS\" && ^
-  git add . && ^
-  git commit -m \"$MSG\" && ^
-  git push && ^
-  git status && ^
-  exec bash; ^
-fi"
+의미: 로컬 브랜치와 원격 브랜치 (origin/dev)가 완전히 동일한 상태입니다.
+해결 방법: 별도의 조치가 필요 없습니다.
 
-:: [4] Git Bash 실행
-start "" "%GIT_BASH_PATH%" -c "%GIT_COMMANDS%"
+ git status
+On branch dev
+Your branch is ahead of 'origin/dev' by 2 commits.
+  (use "git push" to publish your local commits)
 
-:: [5] GitLab 저장소 브라우저 열기
-start "" "%GITLAB_URL%"
+nothing to commit, working tree clean
+
+의미: 로컬 브랜치에 원격 브랜치 (origin/dev)에는 없는 커밋이 X개 있습니다.
+해결 방법: 푸시 (Push) 를 통해 로컬 커밋을 원격 저장소에 반영해야 합니다.
+명령어:
+
+git push origin dev
+
+git status
+On branch dev
+Your branch is behind 'origin/dev' by 3 commits, and can be fast-forwarded.
+  (use "git pull" to update your local branch)
+
+nothing to commit, working tree clean
+
+의미: 원격 브랜치 (origin/dev)에 로컬 브랜치에는 없는 커밋이 X개 있습니다.
+해결 방법: 당겨오기 (Pull) 를 통해 원격 커밋을 로컬 브랜치에 병합해야 합니다.
+명령어:
+
+git pull origin dev
+
+또는
+
+git fetch origin dev
+git merge origin/dev
+
+
+git status
+On branch dev
+Your branch and 'origin/dev' have diverged,
+and have 2 and 3 different commits each, respectively.
+  (use "git pull" to merge the remote branch into yours)
+
+nothing to commit, working tree clean
+
+의미: 로컬 브랜치와 원격 브랜치 (origin/dev)가 서로 다른 커밋을 각각 X개, Y개 가지고 있어 충돌이 발생할 수 있습니다.
+해결 방법: 병합 (Merge) 또는 리베이스 (Rebase) 를 통해 변경 사항을 통합해야 합니다. 충돌이 발생하면 충돌을 해결한 후 커밋해야 합니다.
+
+병합:
+
+git pull origin dev
+
+리베이스 (주의: 공개된 히스토리에는 리베이스를 피하세요):
+
+git fetch origin dev
+git rebase origin/dev
 
 ```
+
+#Git 충돌 해결 방법
+```
+충돌 발생 확인  
+git pull 또는 git merge 중 충돌이 나면 Git이 어떤 파일에서 충돌이 났는지 알려줍니다.
+
+충돌 난 파일 열기  
+충돌난 파일을 텍스트 에디터나 IDE로 열어보면,
+
+<<<<<<< HEAD  
+내 로컬 변경 내용  
+=======  
+원격(또는 병합 대상) 변경 내용  
+>>>>>>> origin/dev  
+
+이런 식으로 구간이 표시되어 있습니다.
+
+충돌 부분 직접 수정  
+내 코드와 원격 코드 중 필요한 부분을 골라서 수정하거나, 두 코드를 합쳐서 원하는 최종 상태로 만듭니다.  
+충돌 표시(<<<<<<<, =======, >>>>>>>)는 반드시 삭제해야 합니다.
+
+수정 완료 후 저장  
+수정한 파일을 저장합니다.
+
+수정한 파일을 Git에 추가
+
+git add <충돌해결한 파일명>
+
+또는 모든 파일을 한꺼번에 추가하려면
+
+git add .
+
+충돌 해결 커밋 완료
+
+git commit
+
+커밋 메시지를 입력하거나 기본 메시지를 그대로 사용하면 됩니다.
+
+푸시  
+충돌 해결 커밋을 원격에 반영하려면
+
+git push origin dev
+
+필요하면 충돌 해결 자동화 툴이나 리베이스 충돌 해결 방법도 알려드릴게요!
+
+```
+
+#Git 추가적인 동기화 상태 확인 방법
+```
+
+git branch -vv
+로컬 브랜치와 연결된 원격 브랜치의 이름과 함께, 각 브랜치의 최신 커밋 정보 및 로컬 브랜치가 원격 브랜치보다 얼마나 앞서거나 뒤쳐져 있는지 간략하게 보여줍니다.
+
+git log --graph --decorate --oneline <local_branch>...origin/<remote_branch>
+git log --graph --decorate --oneline main...origin/main
+로컬 브랜치와 원격 브랜치의 커밋 히스토리를 그래프 형태로 비교하여 보여줍니다. 이를 통해 두 브랜치의 관계와 동기화 상태를 시각적으로 확인할 수 있습니다.
+
+git branch --merged <remote_branch>
+ git branch --merged origin/main
+특정 원격 브랜치(<remote_branch>)로 병합된 로컬 브랜치 목록을 보여줍니다. 현재 체크아웃된 브랜치를 기준으로 병합된 브랜치를 확인하려면 <remote_branch> 자리에 HEAD를 사용합니다.
+
+git branch --no-merged <remote_branch>
+git branch --no-merged origin/main
+특정 원격 브랜치(<remote_branch>)로 아직 병합되지 않은 로컬 브랜치 목록을 보여줍니다.
+
+
+```
+
 
