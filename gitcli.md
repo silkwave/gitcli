@@ -257,6 +257,7 @@ git branch --unset-upstream
 #Git 브랜치 동기화 상태 및 해결 방법
 ```
 
+============================================================
 git status
 On branch dev
 Your branch is up to date with 'origin/dev'.
@@ -266,6 +267,8 @@ nothing to commit, working tree clean
 의미: 로컬 브랜치와 원격 브랜치 (origin/dev)가 완전히 동일한 상태입니다.
 해결 방법: 별도의 조치가 필요 없습니다.
 
+
+============================================================
  git status
 On branch dev
 Your branch is ahead of 'origin/dev' by 2 commits.
@@ -279,6 +282,8 @@ nothing to commit, working tree clean
 
 git push origin dev
 
+
+============================================================
 git status
 On branch dev
 Your branch is behind 'origin/dev' by 3 commits, and can be fast-forwarded.
@@ -298,6 +303,7 @@ git fetch origin dev
 git merge origin/dev
 
 
+============================================================
 git status
 On branch dev
 Your branch and 'origin/dev' have diverged,
@@ -317,6 +323,8 @@ git pull origin dev
 
 git fetch origin dev
 git rebase origin/dev
+
+============================================================
 
 ```
 
@@ -372,18 +380,25 @@ git push origin dev
 git branch -vv
 로컬 브랜치와 연결된 원격 브랜치의 이름과 함께, 각 브랜치의 최신 커밋 정보 및 로컬 브랜치가 원격 브랜치보다 얼마나 앞서거나 뒤쳐져 있는지 간략하게 보여줍니다.
 
+============================================================
+
 git log --graph --decorate --oneline <local_branch>...origin/<remote_branch>
 git log --graph --decorate --oneline main...origin/main
 로컬 브랜치와 원격 브랜치의 커밋 히스토리를 그래프 형태로 비교하여 보여줍니다. 이를 통해 두 브랜치의 관계와 동기화 상태를 시각적으로 확인할 수 있습니다.
+
+============================================================
 
 git branch --merged <remote_branch>
  git branch --merged origin/main
 특정 원격 브랜치(<remote_branch>)로 병합된 로컬 브랜치 목록을 보여줍니다. 현재 체크아웃된 브랜치를 기준으로 병합된 브랜치를 확인하려면 <remote_branch> 자리에 HEAD를 사용합니다.
 
+============================================================
+
 git branch --no-merged <remote_branch>
 git branch --no-merged origin/main
 특정 원격 브랜치(<remote_branch>)로 아직 병합되지 않은 로컬 브랜치 목록을 보여줍니다.
 
+============================================================
 
 ```
 
