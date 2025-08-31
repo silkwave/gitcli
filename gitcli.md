@@ -19,6 +19,7 @@ git add .
 T=$(date "+%Y-%m-%d %H:%M:%S");
 S=$(git status -s);
 git commit -m "자동 커밋 - $T by ($B) - $SHORT_S";
+
 git push --set-upstream origin dev_silkwave:dev  
 
 ```
