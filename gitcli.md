@@ -3,7 +3,6 @@
 
 ```sh
 git reset --mixed HEAD~1           # 최근 커밋 취소하고, 파일은 수정된 상태로 남김
-git reset HEAD~1                   # 기본값이라서 --mixed 생략 가능
 
 git reset --hard abc1234           # 커밋 이력 유지 안 함 (HEAD를 특정 커밋으로 이동)
 git reset --hard origin/dev  (사용주의)
