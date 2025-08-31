@@ -2,46 +2,33 @@
 # Git 작업 흐름 요약
 
 ```sh
-## 1. `dev` 브랜치 가져오기
-`dev` 브랜치를 최신 상태로 업데이트:
-git checkout dev
-git pull origin dev
+git reset --mixed HEAD~1           # 최근 커밋 취소하고, 파일은 수정된 상태로 남김
+git reset HEAD~1                   # 기본값이라서 --mixed 생략 가능
 
-## 2. 새로운 브랜치로 이동
-`dev_silkwave` 브랜치를 생성하거나 해당 브랜치로 이동:
-git checkout dev_silkwave
+git reset --hard abc1234           # 커밋 이력 유지 안 함 (HEAD를 특정 커밋으로 이동)
+git reset --hard origin/dev  (사용주의)
 
 
-## 3. `dev` 브랜치 병합
-최신 `dev` 브랜치 내용을 `dev_silkwave` 브랜치로 병합:
-git merge dev
+git fetch --all --recurse-submodules=no --progress --prune
 
-## 4. 변경 사항 확인 (선택 사항)
-현재 브랜치의 변경 사항을 확인:
-git diff
+git status 
 
+git pull --no-stat -v --progress origin dev
 
-## 5. 수정, 스테이징 및 커밋
-변경된 파일을 추가하고 커밋:
 git add .
 git commit -m "커밋 메시지"
+git push --set-upstream origin dev_silkwave:dev  
 
-## 6. 원격 저장소로 푸시
-`dev_silkwave` 브랜치를 원격 저장소로 푸시:
-git push origin dev_silkwave
-
-## 7. GitLab에서 머지 요청 생성
-
-# 1. [GitLab](https://github.com/silkwave/)에 접속.
-# 2. 상단 메뉴에서 **Create merge requests** 클릭.
-# 3. **Approve** 클릭.
-# 4. **Merge** 클릭.
 ```
 
 ##  `dev` 브랜치와 비교 (선택 사항)
 현재 브랜치와 `dev` 브랜치의 변경 사항 비교:
 ```sh
 git diff dev
+git status
+git log origin/main..main --oneline
+
+
 ```
 
 ### 리모트 저장소의 URL이 출력됩니다
