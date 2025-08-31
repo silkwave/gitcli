@@ -12,7 +12,7 @@ git fetch --all --recurse-submodules=no --progress --prune
 
 git status 
 
-git pull --no-stat -v --progress origin main
+git pull --no-stat -v --progress origin dev
 
 git add .
 T=$(date "+%Y-%m-%d %H:%M:%S");
