@@ -18,6 +18,7 @@ git pull --no-stat -v --progress origin main
 git add .
 T=$(date "+%Y-%m-%d %H:%M:%S");
 S=$(git status -s);
+SHORT_S=$(echo "$S" | head -n 1 | tr "\n" " ");
 git commit -m "자동 커밋 - $T by ($B) - $SHORT_S";
 
 git push --set-upstream origin dev_silkwave:dev  
