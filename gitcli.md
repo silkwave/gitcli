@@ -16,7 +16,9 @@ git status
 git pull --no-stat -v --progress origin main
 
 git add .
-git commit -m "커밋 메시지"
+T=$(date "+%Y-%m-%d %H:%M:%S");
+S=$(git status -s);
+git commit -m "자동 커밋 - $T by ($B) - $SHORT_S";
 git push --set-upstream origin dev_silkwave:dev  
 
 ```
