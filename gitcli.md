@@ -25,10 +25,8 @@ git push --set-upstream origin dev_silkwave:dev
 현재 브랜치와 `dev` 브랜치의 변경 사항 비교:
 ```sh
 git diff dev
-git status
-git log origin/main..main --oneline
 
-
+  
 ```
 
 ### 리모트 저장소의 URL이 출력됩니다
