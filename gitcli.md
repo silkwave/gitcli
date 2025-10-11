@@ -30,6 +30,35 @@ git config credential.helper store --global
 # --global: 현재 사용자 전체에 대해 적용 (모든 Git 저장소에 공통).
 # 즉, 이 명령을 실행하면 한 번 인증(사용자명 + 패스워드 또는 Personal Access Token)을 입력하면, 이후에는 Git이 자동으로 저장된 정보를 사용하게 됩니다.
 
+# 전역 설정: Git Bash에서 한글 깨짐 방지
+git config --global core.quotepath false
+git config --global i18n.commitEncoding utf-8
+git config --global i18n.logOutputEncoding utf-8
+
+git config --global core.editor "code --wait"   # VSCode
+git config --global core.editor "notepad"       # 메모장
+
+# ===============================
+# 한글 환경 Git Bash 자동 설정
+# ===============================
+# 홈 디렉토리 이동
+cd ~
+# .bashrc 열기 (없으면 생성)
+nano ~/.bashrc
+
+
+# 터미널 출력 UTF-8 강제
+export LANG=ko_KR.UTF-8
+export LC_ALL=ko_KR.UTF-8
+
+# Git 한글 깨짐 방지
+git config --global core.quotepath false
+git config --global i18n.commitEncoding utf-8
+git config --global i18n.logOutputEncoding utf-8
+
+# 한글 폰트 지원용 메시지
+echo "Git Bash 한글 환경 설정 완료!"
+
 
 ```
 
