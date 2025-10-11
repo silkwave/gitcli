@@ -24,16 +24,15 @@ git push --set-upstream origin dev_silkwave:dev
 
 git config credential.helper store --global
 
+# 전체 WSL 홈 디렉터리를 안전 디렉터리로 설정 (권장 X, 보안 주의)
+git config --global --add safe.directory '*'
+
+
 # git config: Git 설정을 변경할 때 사용.
 # credential.helper: Git이 원격 저장소 접속 시 인증 정보를 처리하는 방법을 지정.
 # store: 인증 정보를 평문(plaintext) 파일로 저장.
 # --global: 현재 사용자 전체에 대해 적용 (모든 Git 저장소에 공통).
 # 즉, 이 명령을 실행하면 한 번 인증(사용자명 + 패스워드 또는 Personal Access Token)을 입력하면, 이후에는 Git이 자동으로 저장된 정보를 사용하게 됩니다.
-
-# 전역 설정: Git Bash에서 한글 깨짐 방지
-git config --global core.quotepath false
-git config --global i18n.commitEncoding utf-8
-git config --global i18n.logOutputEncoding utf-8
 
 git config --global core.editor "code --wait"   # VSCode
 git config --global core.editor "notepad"       # 메모장
@@ -51,10 +50,14 @@ nano ~/.bashrc
 export LANG=ko_KR.UTF-8
 export LC_ALL=ko_KR.UTF-8
 
-# Git 한글 깨짐 방지
+
+# 커밋 메시지와 경로 한글 깨짐 방지
 git config --global core.quotepath false
 git config --global i18n.commitEncoding utf-8
 git config --global i18n.logOutputEncoding utf-8
+
+# Git 자체 메시지 로케일 활성화
+git config --global i18n.ui true
 
 # 한글 폰트 지원용 메시지
 echo "Git Bash 한글 환경 설정 완료!"
