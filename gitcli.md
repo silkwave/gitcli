@@ -22,6 +22,15 @@ git commit -m "자동 커밋 - $T  $SHORT_S";
 
 git push --set-upstream origin dev_silkwave:dev  
 
+git config credential.helper store --global
+
+# git config: Git 설정을 변경할 때 사용.
+# credential.helper: Git이 원격 저장소 접속 시 인증 정보를 처리하는 방법을 지정.
+# store: 인증 정보를 평문(plaintext) 파일로 저장.
+# --global: 현재 사용자 전체에 대해 적용 (모든 Git 저장소에 공통).
+# 즉, 이 명령을 실행하면 한 번 인증(사용자명 + 패스워드 또는 Personal Access Token)을 입력하면, 이후에는 Git이 자동으로 저장된 정보를 사용하게 됩니다.
+
+
 ```
 
 ##  `dev` 브랜치와 비교 (선택 사항)
