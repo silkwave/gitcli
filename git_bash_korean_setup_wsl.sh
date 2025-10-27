@@ -21,6 +21,22 @@ else
     echo "✔ UTF-8 환경 변수 이미 설정됨"
 fi
 
+git config --global user.name "silkwave"
+git config --global user.email "silkwave24@gmail.com"
+
+git config --global --list
+
+# 줄바꿈 자동 변환 방지 (Windows 사용 시 권장)
+git config --global core.autocrlf false
+
+# 색상 활성화
+git config --global color.ui auto
+
+# 자격 증명 저장 (비밀번호 캐시)
+git config --global credential.helper store
+
+
+
 # 2️⃣ Git i18n 및 한글 깨짐 방지 설정
 git config --global core.quotepath false
 git config --global i18n.commitEncoding utf-8
