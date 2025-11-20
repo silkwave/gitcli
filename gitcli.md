@@ -30,6 +30,12 @@ git config --global core.pager cat
 # 로컬에서 완전히 삭제하고 싶다면
 git clean -fd
 
+#로컬 + 리모트 브랜치 전체 보기
+git branch -a
+
+# 원격의 강제 업데이트를 로컬에 강제로 반영.
+git fetch -f
+
 
 # 전체 WSL 홈 디렉터리를 안전 디렉터리로 설정 (권장 X, 보안 주의)
 git config --global --add safe.directory '*'
