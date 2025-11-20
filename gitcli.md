@@ -36,7 +36,6 @@ git branch -a
 # 원격의 강제 업데이트를 로컬에 강제로 반영.
 git fetch -f
 
-
 # 전체 WSL 홈 디렉터리를 안전 디렉터리로 설정 (권장 X, 보안 주의)
 git config --global --add safe.directory '*'
 
