@@ -24,6 +24,13 @@ git push --set-upstream origin dev_silkwave:dev
 
 git config credential.helper store --global
 
+#Git 기본 pager 끄기 (영구 설정)
+git config --global core.pager cat
+
+# 로컬에서 완전히 삭제하고 싶다면
+git clean -fd
+
+
 # 전체 WSL 홈 디렉터리를 안전 디렉터리로 설정 (권장 X, 보안 주의)
 git config --global --add safe.directory '*'
 
