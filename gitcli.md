@@ -48,7 +48,7 @@ git config --global --add safe.directory '*'
 
 git config --global core.editor "code --wait"   # VSCode
 git config --global core.editor "notepad"       # 메모장
-
+git config --global core.editor "nano"       # 메모장
 # ===============================
 # 한글 환경 Git Bash 자동 설정
 # ===============================
