@@ -22,7 +22,14 @@ git commit -m "자동 커밋 - $T  $SHORT_S";
 
 git push --set-upstream origin dev_silkwave:dev  
 
-git config credential.helper store --global
+#이 명령어는 Git 인증 정보를 로컬 PC에 “평문으로 저장” 하겠다는 의미입니다
+git config --global credential.helper store 
+cat ~/.git-credentials   
+git config --global --unset credential.helper
+
+#OS Keychain 사용 (추천)
+git config --global credential.helper manager
+
 
 #Git 기본 pager 끄기 (영구 설정)
 git config --global core.pager cat
@@ -40,13 +47,17 @@ git fetch -f
 git config --global --add safe.directory '*'
 
 # 특정 파일만 원격 기준으로 덮어쓰기
-git checkout --theirs 파일명
-git add 파일명
-git commit
+git checkout --theirs .classpath
+git add .classpath
+git commit -m "chore: IDE 설정 파일 원격 기준 유지"
+
 
 #내가 수정하지 않은 파일인데 pull 시 오류가 나는 이유
 #줄바꿈(LF ↔ CRLF) 문제 (Windows / Mac / Linux) 
 git config --global core.autocrlf
+git config --global core.autocrlf input   # Mac/Linux
+git config --global core.autocrlf true    # Windows
+
 
 
 
