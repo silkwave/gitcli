@@ -39,6 +39,16 @@ git fetch -f
 # 전체 WSL 홈 디렉터리를 안전 디렉터리로 설정 (권장 X, 보안 주의)
 git config --global --add safe.directory '*'
 
+# 특정 파일만 원격 기준으로 덮어쓰기
+git checkout --theirs 파일명
+git add 파일명
+git commit
+
+#내가 수정하지 않은 파일인데 pull 시 오류가 나는 이유
+#줄바꿈(LF ↔ CRLF) 문제 (Windows / Mac / Linux) 
+git config --global core.autocrlf
+
+
 
 # git config: Git 설정을 변경할 때 사용.
 # credential.helper: Git이 원격 저장소 접속 시 인증 정보를 처리하는 방법을 지정.
