@@ -51,6 +51,8 @@ git checkout --theirs .classpath
 git add .classpath
 git commit -m "chore: IDE 설정 파일 원격 기준 유지"
 
+git branch --set-upstrem-to=origin/dev feature-xxxxx
+
 
 #내가 수정하지 않은 파일인데 pull 시 오류가 나는 이유
 #줄바꿈(LF ↔ CRLF) 문제 (Windows / Mac / Linux) 
