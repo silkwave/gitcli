@@ -89,6 +89,67 @@ echo "Git Bash 한글 환경 설정 완료!"
 
 ---
 
+### 줄바꿈(LF ↔ CRLF) 문제 (Windows / Mac / Linux) 🔁
+
+- 증상: `git pull` 또는 `git merge` 시 "Your local changes to the following files would be overwritten by merge" 같은 오류가 발생하거나, 수정하지 않은 파일이 수정된 것으로 보이는 경우가 있습니다. 주된 원인은 파일의 줄바꿈(LF ↔ CRLF) 불일치입니다.
+
+- 확인 방법
+```sh
+# 현재 설정 확인 (글로벌/로컬)
+git config --global core.autocrlf
+git config core.autocrlf
+
+# CRLF 관련 문제 검사
+git diff --check
+git status -s
+```
+
+- 권장 설정
+  - Windows: `git config --global core.autocrlf true`
+  - Mac/Linux: `git config --global core.autocrlf input`
+  - 또는 레포에 `.gitattributes`를 추가해 명시적으로 규칙을 관리하세요 (권장).
+
+- `.gitattributes` 예시 (레포 루트에 추가)
+```gitattributes
+# 기본 텍스트 파일 자동 정규화
+* text=auto
+
+# 스크립트는 LF로 강제
+*.sh text eol=lf
+*.py text eol=lf
+
+# Windows용 배치 파일은 CRLF로
+*.bat text eol=crlf
+```
+
+- 레포에서 줄바꿈을 정규화하는 안전한 절차
+```sh
+# 1) .gitattributes 추가 & 커밋
+echo "* text=auto" >> .gitattributes
+git add .gitattributes
+git commit -m "chore: add .gitattributes for line endings"
+
+# 2) 작업 트리 재정규화(권장)
+git add --renormalize .
+git commit -m "chore: normalize line endings"
+
+# (대체 방법) 캐시 제거 후 재체크아웃 — 주의해서 사용
+git rm --cached -r .
+git reset --hard
+```
+
+- 임시 회피 (풀을 급히 해야 할 때)
+```sh
+# 주의: 근본 원인 해결과는 별개로 임시로 작업을 피하는 방법
+git stash push -u
+git pull --rebase
+git stash pop
+```
+
+> 요약: 개인 환경에서는 `core.autocrlf`를 OS에 맞게 설정하고, 레포 차원에서는 `.gitattributes`로 표준을 명시하면 줄바꿈 문제로 인한 불필요한 충돌을 크게 줄일 수 있습니다.
+
+---
+
 ## 브랜치와 동기화
 - 로컬 브랜치를 원격 브랜치로 설정
 ```sh
