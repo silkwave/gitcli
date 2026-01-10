@@ -274,31 +274,45 @@ git log --graph --oneline main...origin/main
 
 ### 9.1. 고급 충돌 해결
 
-*   **특정 파일의 충돌을 원격(Theirs) 버전으로 덮어쓰기:** 충돌 발생 시, 내 로컬 변경사항을 버리고 원격(theirs) 저장소의 내용으로 파일을 덮어씁니다.
-    ```sh
-    git checkout --theirs <path/to/file>
+*   **방법 1: `checkout` 사용 (전통적인 방식)**
+    *   **원격(Theirs) 버전으로 덮어쓰기:** 충돌 발생 시, 내 로컬 변경사항을 무시하고 원격(theirs) 저장소의 내용을 가져와 파일을 덮어씁니다.
+        ```sh
+        git checkout --theirs <path/to/file>
 
-    # 해결된 파일을 스테이징하고 커밋
-    git add <path/to/file>
-    git commit -m "chore: Resolve conflict by accepting theirs"
+        # 해결된 파일을 스테이징하고 커밋
+        git add <path/to/file>
+        git commit -m "chore: Resolve conflict by accepting theirs"
+        ```
+    *   **로컬(Ours) 버전으로 덮어쓰기:** 반대로, 원격 변경사항을 무시하고 내 로컬(ours) 파일의 내용을 그대로 적용합니다.
+        ```sh
+        git checkout --ours <path/to/file>
 
-    git fetch origin
+        # 해결된 파일을 스테이징하고 커밋
+        git add <path/to/file>
+        git commit -m "chore: Resolve conflict by accepting ours"
+        ```
 
-    git restore --source=origin/dev -- <path/to/file>
+*   **방법 2: `restore` 사용 (최신 방식)**
+    *   **특정 브랜치에서 단일 파일 복원:** 충돌 해결뿐만 아니라, 특정 파일을 원하는 브랜치의 버전으로 되돌릴 때 유용합니다.
+        ```sh
+        # 원격 최신 정보를 먼저 가져옴
+        git fetch origin
 
-    git add <path/to/file>
-    git commit -m "chore: restore file from origin/dev"
+        # 'origin/dev' 브랜치 버전으로 특정 파일을 복원
+        git restore --source=origin/dev -- <path/to/file>
 
+        # 복원된 파일을 스테이징하고 커밋
+        git add <path/to/file>
+        git commit -m "chore: Restore file from origin/dev"
+        ```
+    *   **특정 브랜치로 전체 디렉토리 복원 (매우 강력! 주의!):** 현재 디렉토리의 모든 내용을 특정 브랜치의 상태로 덮어씁니다. `reset --hard`와 유사하게 모든 로컬 변경사항이 사라질 수 있습니다.
+        ```sh
+        # [주의] 현재 디렉토리의 모든 파일(Working Tree)을 'origin/main' 상태로 복원
+        git restore --source=origin/main -- .
 
-    ```
-*   **특정 파일의 충돌을 로컬(Mine) 버전으로 덮어쓰기:** 반대로, 원격 변경사항을 버리고 내 로컬(ours) 파일의 내용을 그대로 유지합니다.
-    ```sh
-    git checkout --ours <path/to/file>
-
-    # 해결된 파일을 스테이징하고 커밋
-    git add <path/to/file>
-    git commit -m "chore: Resolve conflict by accepting ours"
-    ```
+        # [매우 강력! 주의!] Staging Area와 Working Tree 모두를 'origin/main' 상태로 복원
+        git restore --source=origin/main --staged --worktree -- .
+        ```
 
 ---
 
