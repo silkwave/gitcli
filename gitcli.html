@@ -140,6 +140,44 @@
       line-height: 1.55;
     }
 
+    .code-block {
+      position: relative;
+      margin: 14px 0 22px;
+    }
+
+    .code-block pre {
+      margin: 0;
+      padding-right: 84px;
+    }
+
+    .copy-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      min-width: 58px;
+      min-height: 34px;
+      padding: 6px 10px;
+      border: 1px solid rgb(255 255 255 / 18%);
+      border-radius: 6px;
+      background: rgb(255 255 255 / 10%);
+      color: var(--code-text);
+      font: inherit;
+      font-size: 0.82rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .copy-button:hover,
+    .copy-button:focus {
+      background: rgb(255 255 255 / 18%);
+      outline: none;
+    }
+
+    .copy-button.is-copied {
+      border-color: #5eead4;
+      color: #5eead4;
+    }
+
     pre code {
       display: block;
       padding: 0;
@@ -558,5 +596,55 @@ git push -u origin main -f</code></pre>
   <footer>
     <div class="wrap">Generated from gitcli.md</div>
   </footer>
+  <script>
+    const copyText = async (text) => {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        return;
+      }
+
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "fixed";
+      textarea.style.top = "-9999px";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      textarea.remove();
+    };
+
+    document.querySelectorAll("pre").forEach((pre) => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "code-block";
+      pre.parentNode.insertBefore(wrapper, pre);
+      wrapper.appendChild(pre);
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "copy-button";
+      button.textContent = "복사";
+      button.setAttribute("aria-label", "코드 복사");
+      wrapper.appendChild(button);
+
+      button.addEventListener("click", async () => {
+        const code = pre.querySelector("code");
+        const text = code ? code.textContent : pre.textContent;
+
+        try {
+          await copyText(text);
+          button.textContent = "완료";
+          button.classList.add("is-copied");
+        } catch (error) {
+          button.textContent = "실패";
+        }
+
+        window.setTimeout(() => {
+          button.textContent = "복사";
+          button.classList.remove("is-copied");
+        }, 1400);
+      });
+    });
+  </script>
 </body>
 </html>
